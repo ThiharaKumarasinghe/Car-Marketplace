@@ -8,6 +8,7 @@ import Home from "./Home";
 import Contact from "./Contact";
 import Profile from "./profile/Profile";
 import AddListing from "./add-Listing/AddListing";
+import { Toaster } from "./components/ui/sonner";
 
 
 const router = createBrowserRouter([
@@ -42,6 +43,7 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
       <RouterProvider router={router} />
+      <Toaster />
     </ClerkProvider>
   </StrictMode>
 );
