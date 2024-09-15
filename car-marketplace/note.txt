@@ -1,0 +1,5 @@
+To start frontend - npm run dev
+
+To run backend -
+npm run db:push
+npm run db:studio

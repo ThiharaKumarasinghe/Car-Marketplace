@@ -48,8 +48,7 @@ const AddListing = () => {
 
   const onSubmit = async (e) => {
     setLoader(true);
-    toast("Please Wait...");
-    
+    toast("Please Wait...");    
 
     e.preventDefault();
     // console.log(formData);
