@@ -8,7 +8,9 @@ const Header = () => {
   return (
     <div className=" flex justify-between items-center shadow-sm p-3">
       <div className=" w-[230px] flex justify-center">
-        <img src="Logo.png" className=" " />
+        <Link to={"/"}>
+          <img src="Logo.png" className=" " />
+        </Link>
       </div>
 
       <ul className=" hidden md:flex gap-16">
