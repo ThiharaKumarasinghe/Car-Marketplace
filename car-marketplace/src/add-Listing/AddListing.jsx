@@ -1,6 +1,6 @@
 import Header from "@/components/Header";
 import React, { useState } from "react";
-import { Form, useNavigate } from "react-router-dom";
+import { Form, useNavigate, useSearchParams } from "react-router-dom";
 import carDetails from "../Shared/carDetails.json";
 import features from "../Shared/features.json";
 import InputField from "./components/InputField";
@@ -10,16 +10,18 @@ import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { db } from "../../config/index";
-import { CarListing } from "../../config/schema";
+import { carImages, CarListing } from "../../config/schema";
 import IconField from "./components/IconField";
 import UploadImagesField from "./components/UploadImagesField";
 import { BiLoader } from "react-icons/bi";
 // import { toast } from "../components/ui/sonner";
 import { toast } from "sonner"
-
-
 import { useUser } from "@clerk/clerk-react";
 import moment from "moment";
+import { useEffect } from "react";
+import { desc, eq } from "drizzle-orm";
+import Service from "@/Shared/Service";
+
 
 const AddListing = () => {
   const [formData, setFormData] = useState([]);
@@ -28,6 +30,32 @@ const AddListing = () => {
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
   const {user} = useUser();
+  const [searchParams] = useSearchParams();
+  const [carInfo, setCarInfo]=useState();
+
+  const mode = searchParams.get('mode');
+  const recordID = searchParams.get('id');
+
+  useEffect(() => {
+    if(mode=='edit'){
+      getListingDetails();
+    }
+
+  },[])
+
+
+  const getListingDetails = async()=>{
+    const result = await db
+        .select()
+        .from(CarListing)
+        .innerJoin(carImages, eq(CarListing.id, carImages.carListingId))
+        .where(eq(CarListing.id, recordID));
+
+        const respond = Service.FormatResult(result);
+        setCarInfo(respond[0]);
+        setFormData(respond[0]);
+        setFeaturesData(respond[0].features);
+  }
 
   // To capture use data input
   const handleInputChange = (nameH, value) => {
@@ -50,7 +78,25 @@ const AddListing = () => {
     setLoader(true);
     toast("Please Wait...");    
 
-    e.preventDefault();
+    if(mode=='edit'){
+
+      // update the vales
+      const result = await db.update(CarListing)
+      .set({
+        ...formData,
+          features: featuresData,
+          createdBy: user?.primaryEmailAddress?.emailAddress,
+          postedOn: moment().format('DD/MM/YYYY'),
+      })
+      .where(eq(CarListing.id, recordID))
+      .returning({id:CarListing.id});
+
+      console.log(result);
+      setLoader(false);
+      navigate('/profile');
+
+    }else{
+      e.preventDefault();
     // console.log(formData);
     try {
       const result = await db
@@ -66,10 +112,15 @@ const AddListing = () => {
         console.log("data saved");
         setTriggerUploadImages(result[0]?.id);
         setLoader(false);
+        navigate('/profile');
       }
     } catch (error) {
       console.log("Error: ", error);
     }
+
+    }
+
+    
   };
 
   return (
@@ -97,16 +148,19 @@ const AddListing = () => {
                     <InputField
                       item={item}
                       handleInputChange={handleInputChange}
+                      carInfo={carInfo}
                     />
                   ) : item.fieldType == "dropdown" ? (
                     <DroupdownField
                       item={item}
                       handleInputChange={handleInputChange}
+                      carInfo={carInfo}
                     />
                   ) : item.fieldType == "textarea" ? (
                     <TextAreaField
                       item={item}
                       handleInputChange={handleInputChange}
+                      carInfo={carInfo}                   
                     />
                   ) : null}
                 </div>
@@ -125,6 +179,7 @@ const AddListing = () => {
                     onCheckedChange={(value) =>
                       handleFeatureChange(feature.name, value)
                     }
+                    checked = {featuresData?.[feature.name]}
                   />
                   <h2>{feature.label}</h2>
                 </div>
@@ -136,6 +191,8 @@ const AddListing = () => {
           {/* Car Image */}
           <h2 className=" font-medium text-xl mb-6">Upload Car Images</h2>
           <UploadImagesField
+            mode ={mode}
+            carInfo={carInfo}
             triggerUploadImages={triggerUploadImages}
             setLoader={(v) => {
               setLoader(v);

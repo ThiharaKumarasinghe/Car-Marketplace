@@ -14,8 +14,6 @@ const MyListing = () => {
   const { user } = useUser();
   const [carList, setCarList] = useState([]);
 
-
-
   const getUserCarListing = async () => {
     try {
       const result = await db
@@ -25,7 +23,7 @@ const MyListing = () => {
         .where(eq(CarListing.createdBy, user?.primaryEmailAddress.emailAddress))
         .orderBy(desc(CarListing.id));
 
-        const respond = Service.FormatResult(result);
+      const respond = Service.FormatResult(result);
 
       console.log(respond);
       setCarList(respond);
@@ -49,21 +47,21 @@ const MyListing = () => {
 
       {/* For display */}
       <div className=" grid grid-cols-2 md:grid-cols-3 gap-5 lg:grid-cols-4 mt-7">
-
-        {
-            carList.map((item, index)=>(
-                <div key={index}>
-                    <CarItem car={item} />
-                    <div className=" p-2 bg-gray-50 rounded-lg flex justify-between gap-4">
-                      <Button variant="outline" className=" w-full">Edit</Button>
-                      <Button variant="destructive"><FaTrashAlt/></Button>
-
-                    </div>
-                </div>
-            ))
-        }
-
-
+        {carList.map((item, index) => (
+          <div key={index}>
+            <CarItem car={item} />
+            <div className=" p-2 bg-gray-50 rounded-lg flex justify-between gap-4">
+              <Link to={"/add-listing?mode=edit&id="+item?.id} className=" w-full">
+                <Button variant="outline" className=" w-full">
+                  Edit
+                </Button>
+              </Link>
+              <Button variant="destructive">
+                <FaTrashAlt />
+              </Button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
