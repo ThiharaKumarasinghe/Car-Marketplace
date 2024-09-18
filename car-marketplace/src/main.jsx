@@ -10,6 +10,8 @@ import Profile from "./profile/Profile";
 import AddListing from "./add-Listing/AddListing";
 import { Toaster } from "./components/ui/sonner";
 import SearchByCategory from "./seach/[category]/SearchByCategory";
+import SearchByOption from "./seach/SearchByOption";
+import ListingDetails from "./listing-details/[id]/ListingDetails";
 
 
 const router = createBrowserRouter([
@@ -33,6 +35,15 @@ const router = createBrowserRouter([
     path: "/search/:category",
     element: <SearchByCategory />,
   },
+  {
+    path: "/search",
+    element: <SearchByOption />,
+  },
+  {
+    path: "/listing-details/:id",
+    element: <ListingDetails />,
+  },
+  
   
   
 ]);

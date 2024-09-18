@@ -3,12 +3,14 @@ import React from "react";
 import { BsFillFuelPumpFill } from "react-icons/bs";
 import { IoSpeedometerSharp } from "react-icons/io5";
 import { FaGear } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 const CarItem = ({ car }) => {
   // console.log(car.name)
 
   return (
-    <div className="max-w-sm rounded-t-xl overflow-hidden shadow-lg bg-white">
+    <Link to={'/listing-details/'+car?.id}>
+      <div className="max-w-sm rounded-t-xl overflow-hidden shadow-lg bg-white">
       <img
         className="w-full h-48 object-cover"
         src={car?.images?.[0]?.imageUrl || "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fcar%2F&psig=AOvVaw0ZxrHD8fkAecSPf0HHduMB&ust=1726469047648000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCPCTwcasxIgDFQAAAAAdAAAAABAE"} // Provide a fallback URL
@@ -35,6 +37,9 @@ const CarItem = ({ car }) => {
         </span>
       </div>
     </div>
+
+    </Link>
+    
   );
 };
 
