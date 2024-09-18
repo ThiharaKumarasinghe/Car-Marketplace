@@ -2,6 +2,7 @@ import { SignInButton, UserButton, useUser } from "@clerk/clerk-react";
 import React from "react";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
+import companyLogo from "/Logo.png";
 
 const Header = () => {
   const { user, isSignedIn } = useUser();
@@ -9,13 +10,13 @@ const Header = () => {
     <div className=" flex justify-between items-center shadow-sm p-3">
       <div className=" w-[230px] flex justify-center">
         <Link to={"/"}>
-          <img src="Logo.png" className=" " />
+          <img src={companyLogo} className=" " />
         </Link>
       </div>
 
       <ul className=" hidden md:flex gap-16">
         <li className=" font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary">
-          Home
+          <Link to={"/"}>Home</Link>
         </li>
         <li className=" font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary">
           Search

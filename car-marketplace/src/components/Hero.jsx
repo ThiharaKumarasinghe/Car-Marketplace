@@ -1,5 +1,6 @@
 import React from 'react'
 import Search from './Search'
+import heroImage from '/tesla.png'
 
 const Hero = () => {
   return (
@@ -10,7 +11,7 @@ const Hero = () => {
 
             <Search/>
 
-            <img src="carHero.png" className=' mt-9 w-[70%]'/>
+            <img src={heroImage} className=' mt-3 w-[80%]'/>
         </div>
     </div>
   )

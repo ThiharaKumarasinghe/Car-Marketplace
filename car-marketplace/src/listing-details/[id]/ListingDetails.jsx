@@ -11,6 +11,11 @@ import Description from "./components/Description";
 import Features from "./components/Features";
 import Pricing from "./components/Pricing";
 import Specification from "./components/Specification";
+import OwnerDetails from "@/add-Listing/components/OwnerDetails";
+import FinancialCalculator from "@/add-Listing/components/FinancialCalculator";
+import MostSearchCar from "@/components/MostSearchCar";
+import { Separator } from "@/components/ui/separator";
+import Footer from "@/components/Footer";
 
 const ListingDetails = () => {
 
@@ -50,6 +55,9 @@ const ListingDetails = () => {
                 {/* Feature List */}
                 <Features features={features}/>
 
+                {/* Financial Calculator */}
+                <FinancialCalculator carDetails={carDetails}/>
+
 
             </div>
 
@@ -64,10 +72,17 @@ const ListingDetails = () => {
                 <Specification carDetails={carDetails}/>
 
                 {/* Owner Details */}
+                <OwnerDetails carDetails={carDetails}/>
             </div>
         </div>
 
+        <Separator className="mt-10"/>
+
+        <MostSearchCar/>
+
       </div>
+
+      <Footer/>
     </div>
   );
 };

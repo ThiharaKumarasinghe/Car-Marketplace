@@ -9,7 +9,7 @@ const CarItem = ({ car }) => {
   // console.log(car.name)
 
   return (
-    <Link to={'/listing-details/'+car?.id}>
+    <Link to={'/listing-details/'+car?.id} className=" cursor-pointer">
       <div className="max-w-sm rounded-t-xl overflow-hidden shadow-lg bg-white">
       <img
         className="w-full h-48 object-cover"

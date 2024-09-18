@@ -20,6 +20,7 @@ const Specification = ({ carDetails }) => {
 
               <h2 className=" text-sm">{carDetails[item.name]}</h2>
             </div>
+            
           ))}
 
           {/* {
