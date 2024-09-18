@@ -9,6 +9,8 @@ import { useParams } from "react-router-dom";
 import ImageGalary from "./components/ImageGalary";
 import Description from "./components/Description";
 import Features from "./components/Features";
+import Pricing from "./components/Pricing";
+import Specification from "./components/Specification";
 
 const ListingDetails = () => {
 
@@ -56,8 +58,10 @@ const ListingDetails = () => {
 
             <div className=" ">
                 {/* Pricing */}
+                <Pricing carDetails={carDetails}/>
 
-                {/* Car Properties */}
+                {/* Car Specification */}
+                <Specification carDetails={carDetails}/>
 
                 {/* Owner Details */}
             </div>
